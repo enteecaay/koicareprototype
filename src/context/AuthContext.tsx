@@ -23,14 +23,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
 
   const login = async (email: string, password: string) => {
-    // Mock login - replace with actual authentication
-    const mockUser: User = {
-      id: '1',
-      email,
-      name: 'John Doe',
-      role: email.includes('admin') ? 'admin' : email.includes('shop') ? 'shop' : 'user',
-    };
-    setUser(mockUser);
+    const mockUsers: User[] = [
+      {
+        id: '1',
+        email: 'admin@example.com',
+        name: 'Admin User',
+        role: 'admin',
+      },
+      {
+        id: '2',
+        email: 'shop@example.com',
+        name: 'Shop Manager',
+        role: 'shop',
+      },
+      {
+        id: '3',
+        email: 'user@example.com',
+        name: 'Regular User',
+        role: 'user',
+      },
+    ];
+
+    const foundUser = mockUsers.find(user => user.email === email);
+
+    if (foundUser) {
+      setUser(foundUser);
+    } else {
+      throw new Error('Invalid credentials');
+    }
   };
 
   const logout = () => {

@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 const Navbar: React.FC = () => {
   const location = useLocation();
   const { cartItems } = useCart();
-  const { user, isAdmin, isShopManager } = useAuth();
+  const { user, isAdmin, isShopManager, logout } = useAuth();
 
   const navItems = [
     { path: '/', icon: <Fish className="w-5 h-5" />, label: 'Dashboard' },
@@ -77,7 +77,15 @@ const Navbar: React.FC = () => {
               )}
             </Link>
             {user ? (
-              <span className="text-sm font-medium text-gray-700">{user.name}</span>
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-700">{user.name}</span>
+                <button
+                  onClick={logout}
+                  className="text-sm font-medium text-blue-600 hover:text-blue-500"
+                >
+                  Logout
+                </button>
+              </div>
             ) : (
               <Link
                 to="/login"

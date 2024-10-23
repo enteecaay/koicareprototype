@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
+import AddPondModal from '../components/AddPondModal';
 
 interface Pond {
   id: string;
@@ -20,16 +21,9 @@ const PondManager: React.FC = () => {
     },
   ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentPond, setCurrentPond] = useState<Pond | null>(null);
 
-  const handleAddEdit = (pond: Pond) => {
-    if (currentPond) {
-      setPonds(ponds.map((p) => (p.id === pond.id ? pond : p)));
-    } else {
-      setPonds([...ponds, { ...pond, id: Date.now().toString() }]);
-    }
-    setIsModalOpen(false);
-    setCurrentPond(null);
+  const handleAddPond = (pond: Pond) => {
+    setPonds([...ponds, { ...pond, id: Date.now().toString() }]);
   };
 
   const handleDelete = (id: string) => {
@@ -57,8 +51,7 @@ const PondManager: React.FC = () => {
               <div className="flex space-x-2">
                 <button
                   onClick={() => {
-                    setCurrentPond(pond);
-                    setIsModalOpen(true);
+                    // Handle edit functionality here
                   }}
                   className="p-2 text-gray-600 hover:text-blue-600"
                 >
@@ -80,17 +73,18 @@ const PondManager: React.FC = () => {
                 Location: <span className="font-medium">{pond.location}</span>
               </p>
               <p className="text-sm text-gray-600">
-                Last Maintenance:{' '}
-                <span className="font-medium">
-                  {new Date(pond.lastMaintenance).toLocaleDateString()}
-                </span>
+                Last Maintenance: <span className="font-medium">{new Date(pond.lastMaintenance).toLocaleDateString()}</span>
               </p>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Modal would be implemented here */}
+      <AddPondModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAddPond={handleAddPond}
+      />
     </div>
   );
 };

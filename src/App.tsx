@@ -10,6 +10,7 @@ import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import UserManagement from './pages/admin/UserManagement';
 import ProductManagement from './pages/shop/ProductManagement';
+import LoginPage from './pages/LoginPage';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -24,10 +25,25 @@ function App() {
             <div className="pt-16">
               <Routes>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/pond" element={<PondManager />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                  path="/pond"
+                  element={
+                    <ProtectedRoute requiredRole="user">
+                      <PondManager />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/koi-list"
+                  element={
+                    <ProtectedRoute requiredRole="user">
+                      <KoiList />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/salt-calculator" element={<SaltCalculator />} />
                 <Route path="/food-calculator" element={<FoodCalculator />} />
-                <Route path="/koi-list" element={<KoiList />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route
